@@ -1,10 +1,9 @@
-
 "use client"
 
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, Delete, Loader2, ShieldCheck, QrCode, AlertCircle } from "lucide-react"
+import { CheckCircle2, Delete, Loader2, ShieldCheck, QrCode, AlertCircle, X } from "lucide-react"
 import { createPaymentIntent, checkPaymentStatus } from "@/app/actions/payment"
 import { useToast } from "@/hooks/use-toast"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -54,6 +53,10 @@ export default function TerminalPage() {
       const newVal = amount.slice(0, -1)
       setAmount(newVal === "" ? "0.00" : newVal)
     }
+  }
+
+  const handleClear = () => {
+    setAmount("0.00");
   }
 
   const handleCharge = async () => {
@@ -110,11 +113,11 @@ export default function TerminalPage() {
 
         <CardContent className="p-10">
           <div className="grid grid-cols-3 gap-6">
-            {["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0"].map((num) => (
+            {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((num) => (
               <Button
                 key={num}
                 variant="ghost"
-                className="h-24 text-4xl font-black rounded-3xl transition-transform active:scale-90"
+                className="h-20 text-4xl font-black rounded-3xl transition-transform active:scale-90"
                 onClick={() => handleKeyPress(num)}
               >
                 {num}
@@ -122,7 +125,21 @@ export default function TerminalPage() {
             ))}
             <Button
               variant="ghost"
-              className="h-24 rounded-3xl text-zinc-300 hover:text-black active:scale-90"
+              className="h-20 text-xl font-bold rounded-3xl text-zinc-400 hover:text-black active:scale-90"
+              onClick={handleClear}
+            >
+              C
+            </Button>
+            <Button
+              variant="ghost"
+              className="h-20 text-4xl font-black rounded-3xl transition-transform active:scale-90"
+              onClick={() => handleKeyPress("0")}
+            >
+              0
+            </Button>
+            <Button
+              variant="ghost"
+              className="h-20 rounded-3xl text-zinc-300 hover:text-black active:scale-90"
               onClick={handleDelete}
             >
               <Delete className="h-8 w-8" />

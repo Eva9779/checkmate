@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useEffect, useState, useRef } from "react"
@@ -74,7 +73,7 @@ export default function CustomerPaymentPage() {
       isMounted = false;
       clearTimeout(timeout);
     };
-  }, [intentId, stripe]);
+  }, [intentId]);
 
   useEffect(() => {
     if (!stripe || !amount || !clientSecret) return
@@ -211,7 +210,7 @@ export default function CustomerPaymentPage() {
         <CardFooter className="p-10 pt-0 flex flex-col gap-4">
           <Button 
             className="w-full h-24 text-2xl font-black rounded-[2.5rem] bg-black hover:bg-zinc-900 text-white flex items-center justify-center gap-4 shadow-xl active:scale-95 transition-transform"
-            disabled={isProcessing || paymentSuccess || !canPayNative}
+            disabled={isProcessing || paymentSuccess || (!canPayNative && !errorDetails)}
             onClick={handleTapToPay}
           >
             {isProcessing ? <Loader2 className="h-8 w-8 animate-spin" /> : <Smartphone className="h-8 w-8" />}
@@ -223,7 +222,7 @@ export default function CustomerPaymentPage() {
               <p className="text-[10px] text-zinc-400 uppercase font-bold tracking-widest">
                 Unsupported Browser
               </p>
-              <p className="text-[10px] text-zinc-50 font-medium">
+              <p className="text-[10px] text-zinc-500 font-medium">
                 Please use Safari (iOS) or Chrome (Android) for contactless payment.
               </p>
             </div>
