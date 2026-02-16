@@ -3,17 +3,6 @@
 
 import Stripe from 'stripe';
 
-/**
- * STRIPE SECRET KEY
- * This is now pulled from environment variables to satisfy GitHub security rules.
- * Ensure this is set in your Vercel Environment Variables.
- */
-const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || '';
-
-const stripe = new Stripe(STRIPE_SECRET_KEY, {
-  apiVersion: '2024-12-18.acacia' as any,
-});
-
 interface PaymentIntentResult {
   success: boolean;
   clientSecret?: string;
@@ -23,16 +12,27 @@ interface PaymentIntentResult {
   declineCode?: string;
 }
 
-export async function createPaymentIntent(amount: number): Promise<PaymentIntentResult> {
-  if (!STRIPE_SECRET_KEY) {
-    return { success: false, error: "Payment system misconfigured. Missing API Key." };
+/**
+ * Initialize Stripe lazily to ensure environment variables are loaded
+ * and to prevent crashes if the key is missing during build time.
+ */
+function getStripe() {
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+  if (!secretKey) {
+    throw new Error("STRIPE_SECRET_KEY is missing from environment variables.");
   }
+  return new Stripe(secretKey, {
+    apiVersion: '2024-12-18.acacia' as any,
+  });
+}
 
+export async function createPaymentIntent(amount: number): Promise<PaymentIntentResult> {
   if (!amount || amount <= 0) {
     return { success: false, error: "Invalid amount." };
   }
 
   try {
+    const stripe = getStripe();
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100),
       currency: 'usd',
@@ -63,7 +63,7 @@ export async function createPaymentIntent(amount: number): Promise<PaymentIntent
     console.error("Stripe Server Error:", e.message);
     return {
       success: false,
-      error: e.message || "Stripe API Error",
+      error: e.message || "Payment service error. Ensure STRIPE_SECRET_KEY is set in Vercel.",
       declineCode: e.decline_code
     };
   }
@@ -71,15 +71,18 @@ export async function createPaymentIntent(amount: number): Promise<PaymentIntent
 
 export async function checkPaymentStatus(intentId: string): Promise<string> {
   try {
+    const stripe = getStripe();
     const intent = await stripe.paymentIntents.retrieve(intentId);
     return intent.status;
   } catch (e) {
+    console.error("Status Check Error:", e);
     return 'error';
   }
 }
 
 export async function getPaymentDetails(intentId: string): Promise<PaymentIntentResult> {
   try {
+    const stripe = getStripe();
     const intent = await stripe.paymentIntents.retrieve(intentId);
     return {
       success: true,
@@ -89,7 +92,7 @@ export async function getPaymentDetails(intentId: string): Promise<PaymentIntent
   } catch (e: any) {
     return { 
       success: false, 
-      error: e.message,
+      error: e.message || "Could not retrieve payment details.",
       declineCode: e.decline_code
     };
   }
