@@ -74,15 +74,15 @@ export default function TerminalPage() {
       } else {
         toast({ 
           variant: "destructive", 
-          title: "Stripe Error", 
-          description: result.error || "Failed to create payment." 
+          title: "Payment Error", 
+          description: result.error || "Failed to create payment. Ensure Stripe keys are set in Vercel." 
         });
       }
     } catch (err: any) {
       toast({ 
         variant: "destructive", 
         title: "Connection Error", 
-        description: "Could not reach payment server." 
+        description: "Could not reach payment server. Check your environment variables." 
       });
     } finally {
       setIsProcessing(false);
