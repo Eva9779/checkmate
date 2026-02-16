@@ -19,7 +19,7 @@ interface PaymentIntentResult {
 function getStripe() {
   const secretKey = process.env.STRIPE_SECRET_KEY;
   if (!secretKey) {
-    throw new Error("STRIPE_SECRET_KEY is missing. Please add it to your Vercel Environment Variables. DO NOT use CLIENT_KEY.");
+    throw new Error("STRIPE_SECRET_KEY is missing. In Vercel, go to Settings -> Environment Variables and add STRIPE_SECRET_KEY. Ignore the 'CLIENT_KEY' placeholder.");
   }
   return new Stripe(secretKey, {
     apiVersion: '2024-12-18.acacia' as any,
@@ -63,7 +63,7 @@ export async function createPaymentIntent(amount: number): Promise<PaymentIntent
     console.error("Stripe Server Error:", e.message);
     return {
       success: false,
-      error: e.message || "Payment service error. Ensure STRIPE_SECRET_KEY is set in Vercel.",
+      error: e.message || "Payment service error. Ensure STRIPE_SECRET_KEY is set in Vercel Settings.",
       declineCode: e.decline_code
     };
   }
@@ -92,7 +92,7 @@ export async function getPaymentDetails(intentId: string): Promise<PaymentIntent
   } catch (e: any) {
     return { 
       success: false, 
-      error: e.message || "Could not retrieve payment details. Check STRIPE_SECRET_KEY.",
+      error: e.message || "Could not retrieve payment details. Check STRIPE_SECRET_KEY in Vercel Settings.",
       declineCode: e.decline_code
     };
   }
