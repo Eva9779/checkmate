@@ -1,25 +1,26 @@
 
 # 🚀 PRISTINEPAY LIVE TERMINAL
 
-## 🔗 HOW TO RECONNECT GITHUB (BYPASSING SECRET SCANNING)
-GitHub blocked the previous push because it contained live Stripe keys in the history. We have now moved to environment variables and need to reset the history.
+## 🔗 HOW TO RECONNECT GITHUB
+If you need to reset your connection to the GitHub repository:
 
-1. **Run these commands in the Terminal** to wipe the old history and push clean:
+1. **Run these commands in the Terminal**:
    ```bash
-   rm -rf .git
-   git init
+   git remote remove origin
    git remote add origin https://github.com/Eva9779/checkmate.git
    git add .
-   git commit -m "Initial clean deployment"
+   git commit -m "Deployment fix"
    git push -u origin main --force
    ```
 
-2. **Add the keys to Vercel**:
-   Go to your Vercel Dashboard -> Project Settings -> Environment Variables and add:
-   - `STRIPE_SECRET_KEY`: Your live secret key.
-   - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`: Your live publishable key.
+## ⚡ VERCEL BUILD FIX
+If you see an error about a missing "public" directory on Vercel:
+1. Ensure the `vercel.json` file is present in your repository.
+2. Go to your **Vercel Project Settings**.
+3. Set the **Framework Preset** to **Next.js**.
+4. Set the **Output Directory** to the default for Next.js (usually `.next`).
 
-## ⚡ DEPLOYMENT TO VERCEL
-1. Go to your [Vercel Dashboard](https://vercel.com/dashboard).
-2. Click **"Add New"** -> **"Project"**.
-3. Import the `checkmate` repository from your GitHub account.
+## 🔐 STRIPE KEYS (REQUIRED)
+Go to your Vercel Dashboard -> Project Settings -> Environment Variables and add:
+- `STRIPE_SECRET_KEY`: Your live secret key.
+- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`: Your live publishable key.
