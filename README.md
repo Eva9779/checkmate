@@ -3,10 +3,10 @@
 
 ## 🛠️ HOW TO DEPLOY TO VERCEL (REQUIRED)
 
-If you see "Connection Error" on your live site, it means your Stripe keys are missing from Vercel.
+If you see "Connection Error" on your live site, it means your Stripe keys are missing from Vercel. **DO NOT use names like "CLIENT_KEY". Use exactly the names below.**
 
 ### 1. Add Environment Variables
-Go to your **Vercel Dashboard** -> **Project Settings** -> **Environment Variables** and add these two EXACTLY as written. **DO NOT use "CLIENT_KEY" or other names.**
+Go to your **Vercel Dashboard** -> **Project Settings** -> **Environment Variables** and add these two EXACTLY as written.
 
 | Key | Value |
 | :--- | :--- |
@@ -18,15 +18,12 @@ After adding the keys, go to the **Deployments** tab in Vercel, click the three 
 
 ---
 
-## 🔗 GITHUB RECONNECTION
-To push updates:
+## 🔗 GITHUB UPDATES
+To push changes to your repository:
 1. **Open Terminal**
 2. Run:
    ```bash
    git add .
-   git commit -m "Update terminal logic"
+   git commit -m "Update payment configuration"
    git push origin main
    ```
-
-## ⚡ VERCEL BUILD FIX
-Ensure the `vercel.json` file is present in your repository. Framework Preset must be **Next.js**.

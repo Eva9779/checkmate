@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast"
 /**
  * STRIPE PUBLISHABLE KEY
  * Pulled from environment variables for security.
+ * Ensure you use NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY in Vercel.
  */
 const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "";
 const stripePromise = loadStripe(PUBLISHABLE_KEY);
@@ -36,7 +37,7 @@ export default function CustomerPaymentPage() {
 
   useEffect(() => {
     if (!PUBLISHABLE_KEY) {
-      setErrorDetails("Payment system not configured. Missing Publishable Key in Vercel settings.");
+      setErrorDetails("Payment system not configured. Missing NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY in Vercel settings.");
       return;
     }
 
@@ -64,7 +65,7 @@ export default function CustomerPaymentPage() {
         setClientSecret(result.clientSecret!)
         setAmount(result.amount!)
       } else {
-        setErrorDetails(result.error || "Invalid or expired link")
+        setErrorDetails(result.error || "Invalid or expired link. Ensure STRIPE_SECRET_KEY is set on server.")
       }
     }
     fetchDetails()
@@ -192,7 +193,7 @@ export default function CustomerPaymentPage() {
               <AlertCircle className="h-6 w-6 text-red-500" />
               <div className="space-y-1">
                 <p className="text-[10px] font-black text-red-600 uppercase tracking-widest">Transaction Blocked</p>
-                <p className="text-sm font-medium text-red-800 leading-tight">
+                <p className="text-sm font-medium text-red-800 leading-tight whitespace-pre-line">
                   {errorDetails}
                 </p>
               </div>

@@ -19,7 +19,7 @@ interface PaymentIntentResult {
 function getStripe() {
   const secretKey = process.env.STRIPE_SECRET_KEY;
   if (!secretKey) {
-    throw new Error("STRIPE_SECRET_KEY is missing. Please add it to your Vercel Environment Variables.");
+    throw new Error("STRIPE_SECRET_KEY is missing. Please add it to your Vercel Environment Variables. DO NOT use CLIENT_KEY.");
   }
   return new Stripe(secretKey, {
     apiVersion: '2024-12-18.acacia' as any,
@@ -92,7 +92,7 @@ export async function getPaymentDetails(intentId: string): Promise<PaymentIntent
   } catch (e: any) {
     return { 
       success: false, 
-      error: e.message || "Could not retrieve payment details.",
+      error: e.message || "Could not retrieve payment details. Check STRIPE_SECRET_KEY.",
       declineCode: e.decline_code
     };
   }
