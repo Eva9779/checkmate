@@ -1,0 +1,29 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "coffee",
+      "description": "Premium Coffee Beans",
+      "imageUrl": "https://picsum.photos/seed/coffee/400/300",
+      "imageHint": "coffee beans"
+    },
+    {
+      "id": "pastry",
+      "description": "Freshly Baked Pastry",
+      "imageUrl": "https://picsum.photos/seed/pastry/400/300",
+      "imageHint": "pastry croissant"
+    },
+    {
+      "id": "smoothie",
+      "description": "Fruit Smoothie",
+      "imageUrl": "https://picsum.photos/seed/smoothie/400/300",
+      "imageHint": "fruit smoothie"
+    },
+    {
+      "id": "bagel",
+      "description": "Toasted Bagel",
+      "imageUrl": "https://picsum.photos/seed/bagel/400/300",
+      "imageHint": "toasted bagel"
+    }
+  ]
+}
