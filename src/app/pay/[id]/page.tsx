@@ -36,7 +36,7 @@ export default function CustomerPaymentPage() {
 
   useEffect(() => {
     if (!PUBLISHABLE_KEY) {
-      setErrorDetails("Payment system not configured. Missing Publishable Key.");
+      setErrorDetails("Payment system not configured. Missing Publishable Key in Vercel settings.");
       return;
     }
 
@@ -137,7 +137,7 @@ export default function CustomerPaymentPage() {
       toast({ 
         variant: "destructive", 
         title: "Scanner Not Ready", 
-        description: "Please ensure you are using a secure mobile browser." 
+        description: "Please ensure you are using a secure mobile browser (Safari/iOS or Chrome/Android)." 
       })
       return
     }

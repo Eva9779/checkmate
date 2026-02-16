@@ -19,7 +19,7 @@ interface PaymentIntentResult {
 function getStripe() {
   const secretKey = process.env.STRIPE_SECRET_KEY;
   if (!secretKey) {
-    throw new Error("STRIPE_SECRET_KEY is missing from environment variables.");
+    throw new Error("STRIPE_SECRET_KEY is missing. Please add it to your Vercel Environment Variables.");
   }
   return new Stripe(secretKey, {
     apiVersion: '2024-12-18.acacia' as any,
